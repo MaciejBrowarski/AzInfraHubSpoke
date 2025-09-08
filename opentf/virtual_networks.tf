@@ -110,7 +110,6 @@ resource "azurerm_virtual_network_peering" "vn_MAIN" {
   use_remote_gateways          = each.value.use_remote_gateways
 
   # remote_virtual_network_id = var.sub_virtual_networks[each.value.sub_name][each.value.rg_name][each.value.vn_name].peer[each.value.peer_name].peer_vn_id
-  # remote_virtual_network_id =  "/subscriptions/${sub}/resourceGroups/network/providers/Microsoft.Network/virtualNetworks/ebtt-we-vnet-tf-poc"  
   # remote_virtual_network_id = "/subscriptions/${each.value.peer_vn_sub}/resourceGroups/${each.value.peer_vn_rg}/providers/Microsoft.Network/virtualNetworks/${each.value.peer_vn_name}"
   remote_virtual_network_id = azurerm_virtual_network.vn_MAIN["${each.value.peer_vn_rg}.${each.value.peer_vn_name}"].id
   provider                  = azurerm.MAIN
