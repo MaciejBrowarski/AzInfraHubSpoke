@@ -1,0 +1,36 @@
+
+
+- name: Create mysql group
+  ansible.builtin.group:
+    name: "{{ db_group }}"
+    state: present
+
+- name: Create mysql user
+  ansible.builtin.user:
+    name: "{{ db_user }}"
+    home: /nonexistent
+    shell: /bin/false
+    group: "{{ db_group }}"
+    create_home: no    
+
+# - name: "Setup disk"
+#   ansible.builtin.include_role:
+#     name: setup-disks
+
+- name: Change file ownership and group for mysql
+  ansible.builtin.file:
+    path: "{{ db_link }}"
+    owner: "{{ db_user }}"
+    group: "{{ db_group }}"
+    mode: '0755'
+
+# symlink /var/lib/mysql -> /data/mysql
+- name: Create a symbolic link for db
+  ansible.builtin.file:
+    src: "{{ db_link }}"
+    dest: "/var/lib/mysql"
+    owner: "{{ db_user }}"
+    group: "{{ db_group }}"
+    state: link
+
+    
