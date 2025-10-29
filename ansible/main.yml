@@ -1,0 +1,56 @@
+---
+- name: prepare system
+  hosts: all
+  vars:
+  become: yes
+  become_method: sudo
+#  
+# https://tecadmin.net/how-to-install-php-on-debian-12/
+#
+  tasks:
+    - name: Install common pkgs 
+      ansible.builtin.apt:
+        update_cache: yes
+        pkg:
+          - apt-transport-https 
+          - lsb-release 
+          - ca-certificates 
+          - wget 
+          - unzip
+          - mc
+          - iptables
+          - iptables-persistent
+          - bind9-host
+          - tcpdump
+          - lvm2
+          - net-tools
+          - inetutils-telnet 
+          - rsyslog
+          - sysstat  
+          - cron
+          - strongswan 
+          - bind9
+          - curl 
+          - gpg
+    # curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    # echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    - name: Enable IP Forward
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: true
+
+        # -t nat -A POSTROUTING -s 10.128.0.0/16 -j SNAT --to-source 10.0.0.4
+
+        # bind
+
+
+
+
+
+
+
+
+    

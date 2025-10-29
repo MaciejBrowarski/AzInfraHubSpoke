@@ -1,0 +1,9 @@
+
+- name: Install required pkgs 
+  ansible.builtin.apt:
+    pkg:
+      - mariadb-server
+# https://dev.mysql.com/doc/refman/8.4/en/memory-use.html
+# /etc/mysql/mariadb.conf.d/50-server.cnf
+# SELECT @@innodb_buffer_pool_size/1024/1024/1024;
+# innodb_buffer_pool_size = 8G
